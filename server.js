@@ -32,6 +32,12 @@ if (process.env.CLOUDANT_URL)
   );
   var messages = dbconn.database('messages');
 }
+if(process.env.NODETIME_ACCOUNT_KEY) {
+  require('nodetime').profile({
+    accountKey: process.env.NODETIME_ACCOUNT_KEY,
+    appName: 'PGP Message'
+  });
+}
 var app = express();
 var viewEngine = 'jade'; // modify for your view engine
 // Configuration
