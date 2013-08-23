@@ -15,19 +15,24 @@
 <p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you.</p>
 <div id="status" class="alert"></div>
 <form id="form">
-<div>
+<div class="form-group">
     <label for="from">From</label>
     <input type="text" id="from" />
 </div>
-<div>
+<div class="form-group">
     <label for="reply">Reply To</label>
     <input type="text" id="reply" />
 </div>
-<div>
+<div class="form-group">
+    <label for="keyid">Your PGP Key ID</label>
+    <input type="text" id="keyid" />
+</div>
+<div class="form-group">
     <label for="subject">Subject</label>
     <input type="text" id="subject" />
 </div>
-<div>
+<div class="form-group">
+    <label for="cleartext">Message</label>
     <textarea id="cleartext"></textarea>
 </div>
 <div>
