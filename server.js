@@ -11,6 +11,27 @@
 //   views/
 //
 var express = require('express');
+var url = require('url');
+if (process.env.CLOUDANT_URL)
+{
+  var couch_url = process.env.CLOUDANT_URL;
+  var couch_auth = couch_url.match(/\/\/(.+?)\@/)[1];
+  couch_url = url.parse(couch_url.replace(couch_auth+'@',''));
+
+  var cradle = require('cradle');
+  var dbconn = new(cradle.Connection)(couch_url, 443, 
+    {
+      cache:false, 
+      raw:false, 
+      auth: {
+        username: couch_auth.split(':')[0],
+        password: couch_auth.split(':')[1]
+      },
+      secure: true
+    }
+  );
+  var messages = dbconn.database('messages');
+}
 var app = express();
 var viewEngine = 'jade'; // modify for your view engine
 // Configuration
@@ -30,8 +51,23 @@ app.configure('production', function(){
 });
 app.post("/messages", function(req,res)
 {
-    console.log(req.body['data']);
-    res.end("Thank you");
+    //console.log(req.body['data']);
+    var obj = {
+        received_at: Date.now(),
+        message: req.body['data']
+    }
+    console.log(JSON.stringify(obj));
+    if (messages)
+    {
+      messages.save(obj,function(err, res)
+      {
+        console.log(res);    
+        res.end("Thank you");
+      });
+    } else
+    {
+      res.end("Thank you");
+    }
 })
 // *******************************************************
 app.listen(process.env.PORT);
