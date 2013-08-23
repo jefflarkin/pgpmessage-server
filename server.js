@@ -74,11 +74,11 @@ app.post("/messages", function(req,res)
             res.end("An error has occurred.")
             return;
         }
-        res.end("obj.message");
+        res.end(obj.message);
       });
     } else
     {
-      res.end("obj.message");
+      res.end(obj.message);
     }
 })
 // *******************************************************

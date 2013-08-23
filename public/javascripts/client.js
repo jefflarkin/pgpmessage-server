@@ -24,10 +24,10 @@ $(function () {
             var encoded = encode();
             jQuery.post("/messages",{data:encoded},function(data)
             {
-                console.log(data);
                 // Verify returned data
                 if (data == encoded) 
                 {
+                    console.log([data,encoded]);
                     $("#status").html("Message sent and verified.").removeClass("alert-info").addClass("alert-success").show();
                 } else 
                 {
@@ -35,7 +35,7 @@ $(function () {
                 }
                 // Give option to view sent message
                 // Clear form
-                $("#form").reset();
+                $("#form").find("input[type=text], textarea").val("");
             }).fail(function()
             {
                 $("#status").html("Failed to send message. Please refresh the page and try again.").removeClass("alert-info").addClass("alert-error").show();
