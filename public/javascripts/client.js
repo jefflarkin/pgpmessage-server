@@ -1,5 +1,5 @@
 $(function () {
-    var pubkeyText = $("#pubkey").val();
+    var pubkeyText = $("#pubkey").text();
     if (window.crypto.getRandomValues) {
         openpgp.init();
         var pubkey = openpgp.read_publicKey(pubkeyText);
@@ -20,9 +20,25 @@ $(function () {
         $("#submit").on("click", function(ev)
         {
             ev.preventDefault();
-            jQuery.post("/messages",{data:encode()},function(data)
+            $("#status").html("Sending Message.").addClass("alert-info").show();
+            var encoded = encode();
+            jQuery.post("/messages",{data:encoded},function(data)
             {
                 console.log(data);
+                // Verify returned data
+                if (data == encoded) 
+                {
+                    $("#status").html("Message sent and verified.").removeClass("alert-info").addClass("alert-success").show();
+                } else 
+                {
+                    $("#status").html("Message sent, but verification failed.").removeClass("alert-info").addClass("alert-error").show();
+                }
+                // Give option to view sent message
+                // Clear form
+                $("#form").reset();
+            }).fail(function()
+            {
+                $("#status").html("Failed to send message. Please refresh the page and try again.").removeClass("alert-info").addClass("alert-error").show();
             });
         });
     }

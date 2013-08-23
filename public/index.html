@@ -3,10 +3,18 @@
     <head>
         <title>Contact Me Securely</title>
     </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+    <style>
+        #status { display: none; }
+    </style>
     <body>
-<h1>Contact Me Securely</h1>
-
+    <div class="container">
+<div class="page-header"><h1>Contact Me Securely</h1></div>
+<div class="row">
 <p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you.</p>
+<div id="status" class="alert"></div>
+<form id="form">
 <div>
     <label for="from">From</label>
     <input type="text" id="from" />
@@ -22,10 +30,12 @@
 <div>
     <textarea id="cleartext"></textarea>
 </div>
-</div>
+<div>
 <button id="submit">Send</button>
 </div>
-
+</form>
+</div>
+<div class="row">
 <h1>How it works</h1>
 
 <p>This page is based on <a href="http://openpgpjs.org" target="blank">OpenPGP.JS</a>, a JavaScript implementatipon on the OpenPGP standard. I have embedded my public key into this page. When submitted, your browser will encrypt the message using my public key so that only I can read it. Encrypting it in your browser ensures that no unencrypted data is ever sent, thus only I can ever read what you type. If you would like to implement something similar on your website, I will be providing my client and server code as a reference for how anyone can provide this sort of secure communication.</p>
@@ -36,7 +46,9 @@
 <pre id="cyphertext"></pre>
 
 </div>
-<textarea id="pubkey" style="display:none">
+</div>
+</div>
+<script type="text/plain" id="pubkey">
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.12 (GNU/Linux)
 
@@ -89,9 +101,10 @@ Lyo5Ixqfy4OTCOJ5htr1HFF1bWp59B1XXUuxPT5ooT6FqtNGbwrXUfUUc09Wu1xA
 QZQX6e78EqVcWv1FY4CJ8VSLAP9pVGfrOFRuguY=
 =/hN+
 -----END PGP PUBLIC KEY BLOCK-----
-</textarea>
+</script>
 <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="/javascripts/openpgp.min.js"></script>
-<script src="/javascripts/client.js"></script>
+<script src="javascripts/openpgp.min.js"></script>
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="javascripts/client.js"></script>
 </body>
 </html>

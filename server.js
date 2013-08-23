@@ -65,14 +65,20 @@ app.post("/messages", function(req,res)
     console.log(JSON.stringify(obj));
     if (messages)
     {
-      messages.save(obj,function(err, res)
+      messages.save(obj,function(err, resp)
       {
-        console.log(res);    
-        res.end("Thank you");
+        console.log(resp);
+        if (err)
+        {
+            //res.code();
+            res.end("An error has occurred.")
+            return;
+        }
+        res.end("obj.message");
       });
     } else
     {
-      res.end("Thank you");
+      res.end("obj.message");
     }
 })
 // *******************************************************
