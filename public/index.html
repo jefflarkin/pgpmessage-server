@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Contact Me Securely</title>
+    </head>
+    <body>
+<h1>Contact Me Securely</h1>
+
+<p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you.</p>
+<div>
+    <label for="from">From</label>
+    <input type="text" id="from" />
+</div>
+<div>
+    <label for="reply">Reply To</label>
+    <input type="text" id="reply" />
+</div>
+<div>
+    <label for="subject">Subject</label>
+    <input type="text" id="subject" />
+</div>
+<div>
+    <textarea id="cleartext"></textarea>
+</div>
+</div>
+<button id="submit">Send</button>
+</div>
+
+<h1>How it works</h1>
+
+<p>This page is based on <a href="http://openpgpjs.org" target="blank">OpenPGP.JS</a>, a JavaScript implementatipon on the OpenPGP standard. I have embedded my public key into this page. When submitted, your browser will encrypt the message using my public key so that only I can read it. Encrypting it in your browser ensures that no unencrypted data is ever sent, thus only I can ever read what you type. If you would like to implement something similar on your website, I will be providing my client and server code as a reference for how anyone can provide this sort of secure communication.</p>
+<div id="results" style="display:none">
+    
+<h1>Your Encrypted Message</h1>
+
+<pre id="cyphertext"></pre>
+
+</div>
+<textarea id="pubkey" style="display:none">
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+
+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
+=/hN+
+-----END PGP PUBLIC KEY BLOCK-----
+</textarea>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://openpgpjs.org/openpgpjs/resources/openpgp.min.js"></script>
+<script src="/javascripts/client.js"></script>
+</body>
+</html>
