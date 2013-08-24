@@ -14,26 +14,26 @@
 <div class="row">
 <p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you.</p>
 <div id="status" class="alert"></div>
-<form id="form">
+<form id="form" role="form">
 <div class="form-group">
     <label for="from">From</label>
-    <input type="text" id="from" />
+    <input type="text" id="from" class="form-control" />
 </div>
 <div class="form-group">
     <label for="reply">Reply To</label>
-    <input type="text" id="reply" />
+    <input type="text" id="reply" class="form-control" />
 </div>
 <div class="form-group">
     <label for="keyid">Your PGP Key ID</label>
-    <input type="text" id="keyid" />
+    <input type="text" id="keyid" class="form-control" />
 </div>
 <div class="form-group">
     <label for="subject">Subject</label>
-    <input type="text" id="subject" />
+    <input type="text" id="subject" class="form-control" />
 </div>
 <div class="form-group">
     <label for="cleartext">Message</label>
-    <textarea id="cleartext"></textarea>
+    <textarea id="cleartext" class="form-control" rows="10"></textarea>
 </div>
 <div>
 <button id="submit">Send</button>
