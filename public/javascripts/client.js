@@ -24,7 +24,7 @@ $(function () {
             ev.preventDefault();
             $("#status").html("Sending Message.").addClass("alert-info").show();
             var encoded = encode();
-            jQuery.post("/messages",{data:encoded},function(data)
+            jQuery.post("/messages",{message:encoded},function(data)
             {
                 // Verify returned data
                 if (data == encoded) 

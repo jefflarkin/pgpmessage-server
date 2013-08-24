@@ -12,7 +12,7 @@
     <div class="container">
 <div class="page-header"><h1>Contact Me Securely</h1></div>
 <div class="row">
-<p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you.</p>
+<p>The form below allows you to send me a private, secure communication. The message you type will be encrypted before it is sent to that only I can read its contents. This process is 1-way, so please include a means by which I can respond to you. Prefer your command-line to a web form? You can also send me a message from your terminal with the following command (you'll need to import my key first). <code>curl --data-urlencode "data=`gpg -e -a -r E7640EB9`" http://contact.jefflarkin.com/messages</code> After hitting enter, type your message followed by Ctrl-D. You should receive a copy of the encrypted message back from the server.</p>
 <div id="status" class="alert"></div>
 <form id="form" role="form">
 <div class="form-group">

@@ -60,7 +60,7 @@ app.post("/messages", function(req,res)
     //console.log(req.body['data']);
     var obj = {
         received_at: Date.now(),
-        message: req.body['data']
+        message: req.body['message']
     }
     console.log(JSON.stringify(obj));
     if (messages)
