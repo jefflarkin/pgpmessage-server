@@ -136,11 +136,13 @@ app.delete("/messages/:id", function(req,res)
     {
         messages.get(req.params.id,function(err,resp)
         {
+            console.log(JSON.stringify(resp));
             res.set('Content-Type', 'application/json');
             if(!err)
             {
                 messages.remove(req.params.id,resp.rev,function(err2,resp2)
                 {
+                    console.log([err,JSON.stringify(resp2)]);
                     res.end(JSON.stringify(resp2));
                 });
             }
