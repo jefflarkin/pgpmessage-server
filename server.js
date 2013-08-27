@@ -84,6 +84,7 @@ app.get("/messages", function(req,res)
     // Provide list of available messages
     if ( req.is('json') )
     {
+        res.set('Content-Type', 'application/json');
         messages.view("messages/all", function(err,resp)
         {
             // TODO Should handle errors better
@@ -102,6 +103,7 @@ app.get("/messages/:id", function(req,res)
     // Format: { id: ####, message: armor-text[, read: boolean] }
     if ( req.is('json') )
     {
+        res.set('Content-Type', 'application/json');
         messages.get(req.params.id,function(err,resp)
         {
             // TODO Handle errors better
@@ -119,7 +121,7 @@ app.put("/messages/:id", function(req,res)
     // Format: { id: ####, message: armor-text[, read: boolean] }
     if ( req.is('json') )
     {
-        ;
+        res.set('Content-Type', 'application/json');
     } else // Default to HTML
     {
         res.redirect("/");
@@ -132,7 +134,7 @@ app.delete("/messages/:id", function(req,res)
     // Format: { id: ####, message: armor-text[, read: boolean] }
     if ( req.is('json') )
     {
-        ;
+        res.set('Content-Type', 'application/json');
     } else // Default to HTML
     {
         res.redirect("/");
