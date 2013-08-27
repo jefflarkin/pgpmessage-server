@@ -134,7 +134,17 @@ app.delete("/messages/:id", function(req,res)
     // Format: { id: ####, message: armor-text[, read: boolean] }
     if ( req.is('json') )
     {
-        res.set('Content-Type', 'application/json');
+        messages.get(req.params.id,function(err,resp)
+        {
+            res.set('Content-Type', 'application/json');
+            if(!err)
+            {
+                messages.remove(req.params.id,resp.rev,function(err2,resp2)
+                {
+                    res.end(JSON.stringify(resp2));
+                });
+            }
+        })
     } else // Default to HTML
     {
         res.redirect("/");
