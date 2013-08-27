@@ -1,20 +1,14 @@
 // *******************************************************
-// expressjs template
-//
-// assumes: npm install express
-// defaults to jade engine, install others as needed
-//
-// assumes these subfolders:
-//   public/
-//   public/javascripts/
-//   public/stylesheets/
-//   views/
-//
+// NodeJS reference implementation of PGP Message.
+// Author: Jeff Larkin (http://contact.jefflarkin.com)
+// License: MIT License
+// Version: 0.0.1
 var express = require('express');
 var url = require('url');
-if (process.env.CLOUDANT_URL)
+// Setup CouchDB message store
+if (process.env.CLOUDANT_URL || process.env.COUCHDB_URL)
 {
-  var couch_url = process.env.CLOUDANT_URL;
+  var couch_url = process.env.CLOUDANT_URL || process.env.COUCHDB_URL;
   var couch_auth = couch_url.match(/\/\/(.+?)\@/)[1];
   couch_url = url.parse(couch_url.replace(couch_auth+'@',''));
 
@@ -32,6 +26,7 @@ if (process.env.CLOUDANT_URL)
   );
   var messages = dbconn.database('messages');
 }
+// NodeTime Heroku Add-on
 if(process.env.NODETIME_ACCOUNT_KEY) {
   require('nodetime').profile({
     accountKey: process.env.NODETIME_ACCOUNT_KEY,
@@ -55,19 +50,21 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+// Message Receive Endpoint
+// Expects: POST to message with OpenPGP ASCII Armoured text
+// Returns: Message received for verification by client
+// Suggestion: Read the message headers and compare recipient against key whitelist
 app.post("/messages", function(req,res)
 {
-    //console.log(req.body['data']);
     var obj = {
+        // Useful for sorting, but not required
         received_at: Date.now(),
         message: req.body['message']
     }
-    console.log(JSON.stringify(obj));
     if (messages)
     {
       messages.save(obj,function(err, resp)
       {
-        console.log(resp);
         if (err)
         {
             //res.code();
@@ -80,6 +77,67 @@ app.post("/messages", function(req,res)
     {
       res.end(obj.message);
     }
-})
+});
+// List available messages or redirect back to index
+app.get("/messages", function(req,res)
+{
+    // Provide list of available messages
+    if ( req.is('json') )
+    {
+        messages.view("messages/all", function(err,resp)
+        {
+            // TODO Should handle errors better
+            if (err) res.end("[]");
+            else res.end(resp);
+        });
+    } else // Default to HTML
+    {
+        res.redirect("/");
+    }
+});
+// Return a particular message or redirect back to index
+app.get("/messages/:id", function(req,res)
+{
+    // Return requested message
+    // Format: { id: ####, message: armor-text[, read: boolean] }
+    if ( req.is('json') )
+    {
+        messages.get(req.params.id,function(err,resp)
+        {
+            // TODO Handle errors better
+            if (err) res.end("{}");
+            else res.end(resp);
+        });
+    } else // Default to HTML
+    {
+        res.redirect("/");
+    }
+});
+// Update a particular message
+app.put("/messages/:id", function(req,res)
+{
+    // Return requested message
+    // Format: { id: ####, message: armor-text[, read: boolean] }
+    if ( req.is('json') )
+    {
+        ;
+    } else // Default to HTML
+    {
+        res.redirect("/");
+    }
+});
+// Delete a particular message
+app.delete("/messages/:id", function(req,res)
+{
+    // Return requested message
+    // Format: { id: ####, message: armor-text[, read: boolean] }
+    if ( req.is('json') )
+    {
+        ;
+    } else // Default to HTML
+    {
+        res.redirect("/");
+    }
+});
 // *******************************************************
 app.listen(process.env.PORT);
