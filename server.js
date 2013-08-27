@@ -88,7 +88,7 @@ app.get("/messages", function(req,res)
         {
             // TODO Should handle errors better
             if (err) res.end("[]");
-            else res.end(resp);
+            else res.end(JSON.stringify(resp));
         });
     } else // Default to HTML
     {
@@ -106,8 +106,7 @@ app.get("/messages/:id", function(req,res)
         {
             // TODO Handle errors better
             if (err) res.end("{}");
-            else res.end(resp);
-        });
+            else res.end(JSON.stringify(resp)); });
     } else // Default to HTML
     {
         res.redirect("/");
