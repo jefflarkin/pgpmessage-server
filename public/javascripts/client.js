@@ -22,6 +22,11 @@ $(function () {
         $("#submit").on("click", function(ev)
         {
             ev.preventDefault();
+            if ($("#cleartext").val() === "") 
+            {
+                $("#status").html("Message Required").addClass("alert-info").show();
+                return false;
+            }
             $("#status").html("Sending Message.").addClass("alert-info").show();
             var encoded = encode();
             jQuery.post("/messages",{message:encoded},function(data)
