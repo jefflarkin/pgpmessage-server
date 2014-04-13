@@ -8,9 +8,9 @@ function listmessages()
 }
 function readmessage()
 {
-  echo -ne $(curl -sH "Content-Type: application/json" -H "Accept: application/json" $PGPMESSAGE_URL/$1 | grep -o  "\-\-\-\-\-.*\-\-\-\-\-") | gpg -d
+  echo -ne $(curl -sH "Content-Type: application/json" -H "Accept: application/json" $PGPMESSAGE_URL/messages/$1 | grep -o  "\-\-\-\-\-.*\-\-\-\-\-") | gpg -d
 }
 function deletemessage()
 {
-  curl -i -sH "Content-Type: application/json" -H "Accept: application/json" -X DELETE $PGPMESSAGE_URLmessages/$1
+  curl -i -sH "Content-Type: application/json" -H "Accept: application/json" -X DELETE $PGPMESSAGE_URL/messages/$1
 }
