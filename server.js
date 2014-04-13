@@ -152,7 +152,7 @@ app.delete("/messages/:id", function(req,res)
             {
                 messages.remove(req.params.id,resp.rev,function(err2,resp2)
                 {
-                    res.end("{\"ok:\"+resp2.ok+\"}\"");
+                    res.end("{\"ok:\""+resp2.ok+"\"}\"");
                 });
             } else { res.end('error'); }
         });
