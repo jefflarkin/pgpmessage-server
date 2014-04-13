@@ -1,0 +1,7 @@
+<table>
+<% messages.forEach(function(message) { %>
+  <tr>
+    <td><a href="/messages/<%= message.id %>"><%= message.id %></a></td>
+  </tr>
+<% } %>
+</table>

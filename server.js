@@ -36,7 +36,7 @@ if(process.env.NODETIME_ACCOUNT_KEY) {
   });
 }
 var app = express();
-var viewEngine = 'jade'; // modify for your view engine
+var viewEngine = 'ejs'; // modify for your view engine
 // Configuration
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -45,6 +45,8 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(express.cookieParser());
+  app.use(express.session({secret: process.env.SESSION_SECRET, secure : true}));
 });
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -129,7 +131,8 @@ app.get("/messages", function(req,res)
         });
     } else // Default to HTML
     {
-        res.redirect("/");
+      //res.redirect("/");
+      res.render('messages/index', {messages:resp});
     }
 });
 // Return a particular message or redirect back to index
@@ -197,6 +200,13 @@ app.delete("/messages/:id", function(req,res)
         res.redirect("/");
     }
 });
+
+function verifyLogin(req)
+{
+  if (req.session && req.session.keyId)
+    return true;
+  return false
+}
 // *******************************************************
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0';
