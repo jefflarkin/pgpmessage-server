@@ -2,15 +2,14 @@ $(function () {
     var pubkeyText = $("#pubkey").text();
     if (window.crypto.getRandomValues) {
         var openpgp = window.openpgp;
-        openpgp.init();
-        var pubkey = openpgp.read_publicKey(pubkeyText);
+        var pubkey = openpgp.key.readArmored(pubkeyText);
         var encode = function () {
             var message = "From: " + $("#from").val() + "\n";
             message += "Reply To: " + $("#reply").val() + "\n";
             message += "KeyID: " + $("#keyid").val() + "\n";
             message += "Subject: " + $("#subject").val() + "\n";
             message += $("#cleartext").val();
-            var cyphertext = openpgp.write_encrypted_message(pubkey, message);
+            var cyphertext = openpgp.encryptMessage(pubkey.keys, message);
             $("#cyphertext").html(cyphertext);
             $("#results").show();
             return cyphertext;
