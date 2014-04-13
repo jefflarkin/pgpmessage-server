@@ -4,7 +4,8 @@
   "dependencies": {
     "express": "3.1.x",
     "cradle": "0.6.x",
-    "nodetime":"0.8.x"
+    "nodetime":"0.8.x",
+    "openpgp": "0.5.x"
   },
   "engines": {
     "node": "0.10.x",
