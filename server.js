@@ -163,4 +163,5 @@ app.delete("/messages/:id", function(req,res)
 });
 // *******************************************************
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
-app.listen(port);
+var ip = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+app.listen(port,ip);
