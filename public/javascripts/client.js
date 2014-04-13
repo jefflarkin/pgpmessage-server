@@ -42,9 +42,15 @@ $(function () {
                 // Give option to view sent message
                 // Clear form
                 $("#form").find("input[type=text], textarea").val("");
-            }).fail(function()
+            }).fail(function(jq)
             {
-                $("#status").html("Failed to send message. Please refresh the page and try again.").removeClass("alert-info").addClass("alert-danger").show();
+                if(jq.statusCode().status == 403)
+                {
+                    $("#status").html("Message rejected by the server. " + jq.responseText).removeClass("alert-info").addClass("alert-danger").show();
+                } else
+                {
+                  $("#status").html("Failed to send message. Please refresh the page and try again.").removeClass("alert-info").addClass("alert-danger").show();
+                }
             });
         });
     }

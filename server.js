@@ -3,6 +3,8 @@
 // Author: Jeff Larkin (http://contact.jefflarkin.com)
 // License: MIT License
 // Version: 0.0.1
+var config = require('./config');
+
 var express = require('express');
 var url = require('url');
 // Setup CouchDB message store
@@ -50,16 +52,50 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+// Read accepted keys from pubkeys.js
+var aKeys = require('./pubkeys');
+var openpgp = require('openpgp');
+aKeys.forEach(function(aKey)
+{
+  openpgp.key.readArmored(aKey).keys.forEach(function(tmp)
+  {
+    tmp.getKeyIds().forEach(function(id){
+      config.acceptedKeys.push(id.toHex().substr(8,8));
+    })
+  });    
+});
+
 // Message Receive Endpoint
 // Expects: POST to message with OpenPGP ASCII Armoured text
 // Returns: Message received for verification by client
 // Suggestion: Read the message headers and compare recipient against key whitelist
 app.post("/messages", function(req,res)
 {
+    var oMessage = openpgp.message.readArmored(req.body['message']);
+    var shortKeys = [];
+    var acceptMessage = false;
+    oMessage.getEncryptionKeyIds().forEach(function(msgKey)
+    {
+      var shortKey = msgKey.toHex().substr(8,8);
+      shortKeys.push(shortKey);
+      if (config.acceptedKeys.indexOf(shortKey)>-1)
+      {
+        acceptMessage = true;
+      }
+    });
     var obj = {
         // Useful for sorting, but not required
         received_at: Date.now(),
-        message: req.body['message']
+        message: req.body['message'],
+        keys: shortKeys
+    }
+    if (config.requireAcceptedKey && !acceptMessage)
+    {
+      console.info("Rejecting Message");
+      res.statusCode = 403;
+      res.end("Unknown Key");
+      return;
     }
     if (messages)
     {
@@ -67,7 +103,7 @@ app.post("/messages", function(req,res)
       {
         if (err)
         {
-            //res.code();
+            res.statusCode = 500;
             res.end("An error has occurred.")
             return;
         }
@@ -163,5 +199,5 @@ app.delete("/messages/:id", function(req,res)
 });
 // *******************************************************
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 3000;
-var ip = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
-app.listen(port,ip);
+var ip = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0';
+app.listen(port, ip);
