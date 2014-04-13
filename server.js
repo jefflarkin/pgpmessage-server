@@ -132,7 +132,7 @@ app.get("/messages", function(req,res)
     } else // Default to HTML
     {
       //res.redirect("/");
-      res.render('messages/index', {messages:resp});
+      res.render('messages/index');
     }
 });
 // Return a particular message or redirect back to index

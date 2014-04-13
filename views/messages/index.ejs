@@ -1,7 +1,35 @@
-<table>
-<% messages.forEach(function(message) { %>
-  <tr>
-    <td><a href="/messages/<%= message.id %>"><%= message.id %></a></td>
-  </tr>
-<% } %>
-</table>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Me Securely</title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+<style>
+    #status { display: none; }
+</style>
+<body>
+  <div class="container">
+    <table class="table table-striped">
+      <tbody id="messages">
+      </tbody>
+    </table>
+  </div>
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="javascripts/openpgp.min.js"></script>
+  <script src="javascripts/bootstrap.min.js"></script>
+  <script>
+    jQuery.ajax({
+      type:"GET",
+      url:"/messages",
+      dataType: "json",
+      contentType: "application/json",
+      success: function(data){
+        data.forEach(function(row)
+        {
+          $("#messages").append('<tr><td><a href="/messages/' + row.id + '">' + row.id + '</a></td></tr>');
+        });
+    }});
+  </script>
+</body>
+</html>
