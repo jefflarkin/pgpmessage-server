@@ -1,6 +1,16 @@
 {
   "name":"pgpmessage-server",
+  "description" : "Reference implementation of a PGP Message server.",
   "version":"0.0.1",
+  "license":"MIT",
+  "homepage" : "https://github.com/jefflarkin/pgpmessage-server",
+  "author" : {
+    "name" : "Jeff Larkin",
+    "url" : "https://github.com/jefflarkin"
+  },
+  "bugs" : {
+    "url" : "https://github.com/jefflarkin/pgpmessage-server/issues"
+  },
   "dependencies": {
     "express": "3.1.x",
     "cradle": "0.6.x",
